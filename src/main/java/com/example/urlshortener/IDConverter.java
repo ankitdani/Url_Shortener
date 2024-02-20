@@ -2,6 +2,7 @@ package com.example.urlshortener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class IDConverter {
@@ -54,4 +55,23 @@ public class IDConverter {
             indexToCharTable.add(c);
         }
     }
+
+    public static String createUniqueID(Long id) {
+        List<Integer> base62ID = convertBase10ToBase62ID(id);
+        StringBuilder uniqueURLID = new StringBuilder();
+        for (int digit: base62ID) {
+            uniqueURLID.append(indexToCharTable.get(digit));
+        }
+        return uniqueURLID.toString();
+    }
+
+    private static List<Integer> convertBase10ToBase62ID(Long id) {
+        List<Integer> digits = new LinkedList<>();
+        while (id > 0) {
+            digits.add(0, (int) (id % 62));
+            id /= 62;
+        }
+        return digits;
+    }
+
 }
