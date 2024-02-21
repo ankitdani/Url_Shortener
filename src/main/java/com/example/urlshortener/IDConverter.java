@@ -74,4 +74,22 @@ public class IDConverter {
         return digits;
     }
 
+    public static Long getDictionaryKeyFromUniqueID(String uniqueID) {
+        List<Character> base62IDs = new ArrayList<>();
+        for (int i = 0; i < uniqueID.length(); ++i) {
+            base62IDs.add(uniqueID.charAt(i));
+        }
+        Long dictionaryKey = convertBase62ToBase10ID(base62IDs);
+        return dictionaryKey;
+    }
+
+    private static Long convertBase62ToBase10ID(List<Character> ids) {
+        long id = 0L;
+        for (int i = 0, exp = ids.size() - 1; i < ids.size(); ++i, --exp) {
+            int base10 = charToIndexTable.get(ids.get(i));
+            id += (base10 * Math.pow(62.0, exp));
+        }
+        return id;
+    }
+
 }
